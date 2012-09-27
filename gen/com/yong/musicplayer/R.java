@@ -35,9 +35,9 @@ public final class R {
         public static final int lstItem_MusicName=0x7f080008;
         public static final int menu_about=0x7f08000b;
         public static final int menu_update=0x7f08000a;
-        public static final int textView_ArtInfo=0x7f080001;
-        public static final int textView_MusicName=0x7f080000;
         public static final int textView_Test=0x7f080004;
+        public static final int textView_curMusicArtist=0x7f080001;
+        public static final int textView_curMusicTitle=0x7f080000;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

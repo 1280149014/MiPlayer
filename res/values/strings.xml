@@ -4,9 +4,9 @@
     <string name="app_name">MusicPlayer</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="music_name">music_name音乐名字好长啊！</string>
-    <string name="art_info">art_info - 周杰伦</string>
-    <string name="menu.update">更新</string>
+    <string name="music_name">未知歌曲</string>
+    <string name="art_info">未知歌手</string>
+    <string name="menu.update">刷新</string>
     <string name="menu.about">关于</string>
 
 </resources>
