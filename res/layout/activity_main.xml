@@ -27,7 +27,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:text="@string/music_name"
+                android:text="@string/default_title"
                 android:textColor="@android:color/white"
                 android:textSize="28sp" />
 
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/art_info"
+                android:text="@string/default_artist"
                 android:textColor="@android:color/white"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -49,6 +49,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/music_list"
             android:src="@drawable/icon_play" />
     </LinearLayout>
 
@@ -74,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/shadow"
-                android:text="@string/art_info"
+                android:text="@string/app_name"
                 android:textSize="13sp" />
         </LinearLayout>
     </FrameLayout>
@@ -91,6 +92,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/play"
             android:src="@drawable/play" />
 
         <ImageButton
@@ -101,6 +103,7 @@
             android:layout_marginRight="100dp"
             android:layout_toLeftOf="@+id/imgBtn_Play"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/previous"
             android:src="@drawable/previous" />
 
         <ImageButton
@@ -111,6 +114,7 @@
             android:layout_marginLeft="100dp"
             android:layout_toRightOf="@+id/imgBtn_Play"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/next"
             android:src="@drawable/next" />
     </RelativeLayout>
 

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.yong.musicplayer.Constants;
+import com.yong.constants.Def;
 
 import android.os.Environment;
 
@@ -19,7 +19,7 @@ public final class FileUtil
 		// SDCardRoot = Environment.getExternalStorageDirectory().getPath() + File.separator;
 		// if(Constants.isDebug)System.out.println("TEST--->getSDCardPath() : " + SDCardRoot);
 		SDCardRoot = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
-		if (Constants.isDebug)
+		if (Def.isDebug)
 			System.out.println("TEST--->getSDCardAbsolutePath() : " + SDCardRoot);
 		return SDCardRoot;
 	}
@@ -57,10 +57,10 @@ public final class FileUtil
 	{
 		// if(Constants.isDebug)System.out.println("TEST--->isFileExist() : " + SDCardRoot);
 		String path = SDCardRoot + filePath + File.separator + folderName;
-		if (Constants.isDebug)
+		if (Def.isDebug)
 			System.out.println("TEST--->theFilePath : " + path);
 		File file = new File(path);
-		if (Constants.isDebug)
+		if (Def.isDebug)
 			System.out.println("TEST--->getFilePath : " + file.getPath());
 		return file.exists();
 	}

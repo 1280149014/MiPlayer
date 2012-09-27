@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MusicPlayer</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">MiPlayer</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="music_name">未知歌曲</string>
-    <string name="art_info">未知歌手</string>
-    <string name="menu.update">刷新</string>
+    <string name="default_title">未知歌曲</string>
+    <string name="default_artist">未知歌手</string>
     <string name="menu.about">关于</string>
+    <string name="menu.update">刷新</string>
+    <string name="music_list">列表</string>
+    <string name="play">播放/暂停</string>
+    <string name="next">下一首</string>
+    <string name="previous">上一首</string>
 
 </resources>

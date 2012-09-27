@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import com.yong.constants.Def;
 import com.yong.utils.FileUtil;
 import com.yong.utils.MediaUtil;
 
@@ -55,16 +56,6 @@ public class MainActivity extends ListActivity
 	// 当前正在播放歌曲的路径
 	String curMusicPath;
 
-	// HashMap<String, String> map1 = new HashMap<String, String>();
-	// HashMap<String, String> map2 = new HashMap<String, String>();
-	// HashMap<String, String> map3 = new HashMap<String, String>();
-	// HashMap<String, String> map4 = new HashMap<String, String>();
-	// HashMap<String, String> map5 = new HashMap<String, String>();
-	// HashMap<String, String> map6 = new HashMap<String, String>();
-	// HashMap<String, String> map7 = new HashMap<String, String>();
-	// HashMap<String, String> map8 = new HashMap<String, String>();
-	// HashMap<String, String> map9 = new HashMap<String, String>();
-
 	private void init()
 	{
 		// 播放界面布局对象
@@ -91,7 +82,7 @@ public class MainActivity extends ListActivity
 		updateCurMusicInfoView();
 		updateMediaPlayer();
 
-		if (Constants.isDebug)
+		if (Def.isDebug)
 			System.out.println("TEST--->SD卡路径：" + FileUtil.getSDPath());
 	}
 
@@ -139,7 +130,7 @@ public class MainActivity extends ListActivity
 		curMusicArtist = audioInfos.get(position).getArtist();
 		curMusicPath = audioInfos.get(position).getPath();
 
-		if (Constants.isDebug)
+		if (Def.isDebug)
 		{
 			System.out.println("TEST--->选择的歌曲信息：");
 			System.out.println("TEST--->歌名：" + curMusicTitle);
@@ -153,6 +144,7 @@ public class MainActivity extends ListActivity
 	private void updateCurMusicInfoView()
 	{
 		tv_curMusicTitle.setText(curMusicTitle);
+//		tv_curMusicTitle.setText("askjflksjdfl113242ljfdsofjwoef2");
 		tv_curMusicArtist.setText(curMusicArtist);
 	}
 
@@ -163,50 +155,17 @@ public class MainActivity extends ListActivity
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);// 代码实现隐藏标题栏（必须放在setContentView之前）
 		setContentView(R.layout.activity_main);
 
-		if (Constants.isDebug)
+		if (Def.isDebug)
 			System.out.println("TEST--->onCreate()...");
 
 		init();
-
-		// map1.put(from[0], "忘情水");
-		// map1.put(from[1], "刘德华");
-		// map2.put(from[0], "With him");
-		// map2.put(from[1], "facebaby");
-		// map3.put(from[0], "因为爱情");
-		// map3.put(from[1], "王菲");
-		// map4.put(from[0], "东风破");
-		// map4.put(from[1], "周杰伦");
-		// map5.put(from[0], "HelloWorld");
-		// map5.put(from[1], "hello");
-		// map6.put(from[0], "给我一首歌的时间");
-		// map6.put(from[1], "周杰伦");
-		// map7.put(from[0], "如果没有你");
-		// map7.put(from[1], "李昊翰");
-		// map8.put(from[0], "你把我灌醉");
-		// map8.put(from[1], "张赫宣");
-		// map9.put(from[0], "传奇");
-		// map9.put(from[1], "王菲");
-
-		// musicList.add(map1);
-		// musicList.add(map2);
-		// musicList.add(map3);
-		// musicList.add(map4);
-		// musicList.add(map5);
-		// musicList.add(map6);
-		// musicList.add(map7);
-		// musicList.add(map8);
-		// musicList.add(map9);
-
-		// SimpleAdapter listAdapter = new SimpleAdapter(MainActivity.this, musicList,
-		// R.layout.list_item_main, from, to);
-		// setListAdapter(listAdapter);
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id)
 	{
 		super.onListItemClick(l, v, position, id);
-		if (Constants.isDebug)
+		if (Def.isDebug)
 		{
 			System.out.println("TEST--->id:" + id);
 			System.out.println("TEST--->position:" + position);
@@ -230,17 +189,18 @@ public class MainActivity extends ListActivity
 			{// 播放状态：暂停按钮可见
 				imgBtn_Play.setImageResource(R.drawable.play);
 				pause();
-				if (Constants.isDebug)
+				if (Def.isDebug)
 					System.out.println("TEST--->暂停");
 			} else
 			{// 暂停状态：播放按钮可见
 				imgBtn_Play.setImageResource(R.drawable.pause);
 				play();
-				if (Constants.isDebug)
+				if (Def.isDebug)
 					System.out.println("TEST--->播放");
 			}
 
-			Toast.makeText(MainActivity.this, "Play按钮被点击了！", Toast.LENGTH_SHORT).show();
+			if (Def.isDebug)
+				Toast.makeText(MainActivity.this, "Play按钮被点击了！", Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -282,7 +242,7 @@ public class MainActivity extends ListActivity
 		{
 			// FileUtil.creatFolder("Photo");
 			// FileUtil.creatFolder("Ebook");
-			Toast.makeText(MainActivity.this, "Previous按钮被点击了！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(MainActivity.this, "Previous", Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -293,7 +253,7 @@ public class MainActivity extends ListActivity
 		public void onClick(View v)
 		{
 			// System.out.println("TEST--->" + FileUtil.isFolderExist("Music", ""));
-			Toast.makeText(MainActivity.this, "Next按钮被点击了！", Toast.LENGTH_SHORT).show();
+			Toast.makeText(MainActivity.this, "Next", Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -305,22 +265,16 @@ public class MainActivity extends ListActivity
 		{
 			if (linearLayout.getVisibility() == View.VISIBLE)
 			{
-				// String[] file_list = FileTools.getFileList(Constants.MUSIC_FILE);
-				// for (int i = 0; i < file_list.length; i++)
-				// {
-				// System.out.println(file_list[i]);
-				// }
-
-				// MediaUtil.printAllMediaInfo();
-
 				linearLayout.setVisibility(View.INVISIBLE);
 				imgBtn_List.setImageResource(R.drawable.icon_play);
-				Toast.makeText(MainActivity.this, "返回歌曲列表", Toast.LENGTH_SHORT).show();
+				if (Def.isDebug)
+					Toast.makeText(MainActivity.this, "返回歌曲列表", Toast.LENGTH_SHORT).show();
 			} else
 			{
 				linearLayout.setVisibility(View.VISIBLE);
 				imgBtn_List.setImageResource(R.drawable.icon_list);
-				Toast.makeText(MainActivity.this, "返回播放界面", Toast.LENGTH_SHORT).show();
+				if (Def.isDebug)
+					Toast.makeText(MainActivity.this, "返回播放界面", Toast.LENGTH_SHORT).show();
 			}
 		}
 	};
@@ -333,9 +287,6 @@ public class MainActivity extends ListActivity
 		return true;
 	}
 
-	// private final String[] from = new String[] { "music_title", "music_artist" };
-	// private final int[] to = new int[] { R.id.lstItem_MusicName, R.id.lstItem_ArtInfo };
-
 	/** 更新播放列表 */
 	public void updateMusicList()
 	{
@@ -344,18 +295,18 @@ public class MainActivity extends ListActivity
 
 		for (Iterator<AudioInfo> iterator = audioInfos.iterator(); iterator.hasNext();)
 		{
-			AudioInfo audioInfo = (AudioInfo) iterator.next();
+			AudioInfo audioInfo = iterator.next();
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("music_title", audioInfo.getTitle());
 			map.put("music_artist", audioInfo.getArtist());
 			musicList.add(map);
 
-			if (Constants.isDebug)
+			if (Def.isDebug)
 				System.out.println(audioInfo);
 		}
 
 		SimpleAdapter listAdapter = new SimpleAdapter(MainActivity.this, musicList,
-				R.layout.list_item_main, new String[] { "music_title", "music_artist" }, new int[] {
+				R.layout.list_item, new String[] { "music_title", "music_artist" }, new int[] {
 						R.id.lstItem_MusicName, R.id.lstItem_ArtInfo });
 		setListAdapter(listAdapter);
 	}
@@ -365,15 +316,17 @@ public class MainActivity extends ListActivity
 	{
 		switch (item.getOrder())
 		{
-		case Constants.MENU_UPDATE_ID:
+		case Def.MENU_UPDATE_ID:
 		{// 更新
 			updateMusicList();
-			Toast.makeText(MainActivity.this, "选择了“更新”！", Toast.LENGTH_SHORT).show();
+			if (Def.isDebug)
+				Toast.makeText(MainActivity.this, "更新", Toast.LENGTH_SHORT).show();
 			break;
 		}
-		case Constants.MENU_ABOUT_ID:
+		case Def.MENU_ABOUT_ID:
 		{// 关于
-			Toast.makeText(MainActivity.this, "选择了“关于”！", Toast.LENGTH_SHORT).show();
+			if (Def.isDebug)
+				Toast.makeText(MainActivity.this, "关于", Toast.LENGTH_SHORT).show();
 			break;
 		}
 		}
