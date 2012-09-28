@@ -1,4 +1,4 @@
-package com.yong.musicplayer;
+package com.yong.miplayer;
 
 /**
  * 用于存放歌曲信息的实体类

@@ -11,7 +11,7 @@ import android.provider.MediaStore.Audio.AudioColumns;
 import android.provider.MediaStore.MediaColumns;
 import android.widget.Toast;
 
-import com.yong.musicplayer.AudioInfo;
+import com.yong.miplayer.AudioInfo;
 
 /**
  * @author Yong
