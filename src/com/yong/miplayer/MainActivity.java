@@ -157,7 +157,8 @@ public class MainActivity extends ListActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		// requestWindowFeature(Window.FEATURE_NO_TITLE);// 代码实现隐藏标题栏（必须放在setContentView之前）
+		// 代码实现隐藏标题栏（必须放在setContentView之前）
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
 
 		if (Def.isDebug)

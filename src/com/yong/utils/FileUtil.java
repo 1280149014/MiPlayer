@@ -16,8 +16,6 @@ public final class FileUtil
 
 	public static String getSDPath()
 	{
-		// SDCardRoot = Environment.getExternalStorageDirectory().getPath() + File.separator;
-		// if(Constants.isDebug)System.out.println("TEST--->getSDCardPath() : " + SDCardRoot);
 		SDCardRoot = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
 		if (Def.isDebug)
 			System.out.println("TEST--->getSDCardAbsolutePath() : " + SDCardRoot);
@@ -55,7 +53,6 @@ public final class FileUtil
 	 */
 	public static boolean isFolderExist(String folderName, String filePath)
 	{
-		// if(Constants.isDebug)System.out.println("TEST--->isFileExist() : " + SDCardRoot);
 		String path = SDCardRoot + filePath + File.separator + folderName;
 		if (Def.isDebug)
 			System.out.println("TEST--->theFilePath : " + path);
