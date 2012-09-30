@@ -5,19 +5,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import com.yong.constants.Def;
-import com.yong.musicplayer.R;
-import com.yong.musicplayer.R.drawable;
-import com.yong.musicplayer.R.id;
-import com.yong.musicplayer.R.layout;
-import com.yong.musicplayer.R.menu;
-import com.yong.utils.FileUtil;
-import com.yong.utils.MediaUtil;
-
+import android.app.ListActivity;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.ListActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +19,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.yong.constants.Def;
+import com.yong.musicplayer.R;
+import com.yong.utils.FileUtil;
+import com.yong.utils.MediaUtil;
 
 public class MainActivity extends ListActivity
 {
@@ -173,12 +169,11 @@ public class MainActivity extends ListActivity
 		super.onListItemClick(l, v, position, id);
 		if (Def.isDebug)
 		{
-			System.out.println("TEST--->id:" + id);
-			System.out.println("TEST--->position:" + position);
+//			System.out.println("TEST--->id:" + id);
+			System.out.println("TEST--->onListItem position:" + position);
 		}
 		updateCurMusicInfo(position);
 		updateMediaPlayer();
-		// mediaPlayer.reset();
 		play();
 		imgBtn_Play.setImageResource(R.drawable.pause);
 	}
@@ -212,13 +207,20 @@ public class MainActivity extends ListActivity
 
 	private void updateMediaPlayer()
 	{
+		if (mediaPlayer != null)
+		{
+			mediaPlayer.reset();
+			if (Def.isDebug)
+				System.out.println("mediaPlayer.reset()...");
+		} /*else
+		{
+			if (Def.isDebug)
+				System.out.println("mediaPlayer == null...");
+		}*/
+
 		Uri uri = Uri.parse("file://" + curMusicPath);
 		mediaPlayer = MediaPlayer.create(MainActivity.this, uri);
 		mediaPlayer.setLooping(false);
-		// if (isPlaying || isPause)
-		// {
-		// mediaPlayer.reset();
-		// }
 	}
 
 	/** 播放 */
@@ -296,10 +298,9 @@ public class MainActivity extends ListActivity
 	/** 更新播放列表 */
 	public void updateMusicList()
 	{
-//		audioInfos = new ArrayList<AudioInfo>();
 		audioInfos = MediaUtil.updateAudioInfos();
-		
-		if(!musicList.isEmpty())
+
+		if (!musicList.isEmpty())
 		{
 			musicList.clear();
 		}
