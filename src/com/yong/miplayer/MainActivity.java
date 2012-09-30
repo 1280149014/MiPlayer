@@ -31,35 +31,35 @@ import android.widget.Toast;
 
 public class MainActivity extends ListActivity
 {
-	MediaPlayer mediaPlayer;
+	private MediaPlayer mediaPlayer;
 	/** 播放界面布局 */
-	LinearLayout linearLayout;
+	private LinearLayout linearLayout;
 	// 歌曲列表按钮
-	ImageButton imgBtn_List;
+	private ImageButton imgBtn_List;
 	// 播放按钮
-	ImageButton imgBtn_Play;
+	private ImageButton imgBtn_Play;
 	// 上一首按钮
-	ImageButton imgBtn_Previous;
+	private ImageButton imgBtn_Previous;
 	// 下一首按钮
-	ImageButton imgBtn_Next;
+	private ImageButton imgBtn_Next;
 	// 播放状态
 	private boolean isPlaying;
 	private boolean isPause;
 	private boolean isReleased;
 	// 存放歌曲列表中的信息
-	ArrayList<HashMap<String, String>> musicList = new ArrayList<HashMap<String, String>>();
+	private ArrayList<HashMap<String, String>> musicList = new ArrayList<HashMap<String, String>>();
 	// 存放了歌曲信息的歌曲信息对象
-	List<AudioInfo> audioInfos = new ArrayList<AudioInfo>();
+	private List<AudioInfo> audioInfos = new ArrayList<AudioInfo>();
 	// 当前正在播放歌曲名称界面
-	TextView tv_curMusicTitle;
+	private TextView tv_curMusicTitle;
 	// 当前正在播放歌曲歌手/专辑信息界面
-	TextView tv_curMusicArtist;
+	private TextView tv_curMusicArtist;
 	// 当前正在播放歌曲名称
-	String curMusicTitle;
+	private String curMusicTitle;
 	// 当前正在播放歌曲歌手/专辑信息
-	String curMusicArtist;
+	private String curMusicArtist;
 	// 当前正在播放歌曲的路径
-	String curMusicPath;
+	private String curMusicPath;
 
 	private void init()
 	{
@@ -296,8 +296,13 @@ public class MainActivity extends ListActivity
 	/** 更新播放列表 */
 	public void updateMusicList()
 	{
-		audioInfos = new ArrayList<AudioInfo>();
+//		audioInfos = new ArrayList<AudioInfo>();
 		audioInfos = MediaUtil.updateAudioInfos();
+		
+		if(!musicList.isEmpty())
+		{
+			musicList.clear();
+		}
 
 		for (Iterator<AudioInfo> iterator = audioInfos.iterator(); iterator.hasNext();)
 		{

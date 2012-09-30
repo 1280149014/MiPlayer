@@ -21,8 +21,6 @@ public final class MediaUtil
 	private static ContentResolver contentResolver;
 	private static Cursor cursor;
 	private static Context ctx;
-	private static List<AudioInfo> audioInfos = new ArrayList<AudioInfo>();
-	static AudioInfo audioInfo;
 
 	/** 初始化 */
 	public static void init(Context context)
@@ -48,11 +46,12 @@ public final class MediaUtil
 	public static List<AudioInfo> updateAudioInfos()
 	{
 		updateMediaStore();
+		List<AudioInfo> audioInfos = new ArrayList<AudioInfo>();
 		if (cursor.moveToFirst())
 		{
 			do
 			{
-				audioInfo = new AudioInfo();
+				AudioInfo audioInfo = new AudioInfo();
 				// 获取歌曲名
 				String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaColumns.TITLE));
 				audioInfo.setTitle(title);
@@ -83,7 +82,7 @@ public final class MediaUtil
 			} while (cursor.moveToNext());
 		} else
 		{
-			Toast.makeText(ctx, "未找到歌曲，请刷新！", Toast.LENGTH_LONG).show();
+			Toast.makeText(ctx, "未找到歌曲，请刷新歌曲列表！", Toast.LENGTH_LONG).show();
 		}
 
 		return audioInfos;
