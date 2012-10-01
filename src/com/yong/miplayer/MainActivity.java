@@ -35,7 +35,7 @@ public class MainActivity extends ListActivity
 	// 播放按钮
 	private ImageButton imgBtn_Play;
 	// 上一首按钮
-	private ImageButton imgBtn_Previous;
+	private ImageButton imgBtn_Prev;
 	// 下一首按钮
 	private ImageButton imgBtn_Next;
 	// 播放状态
@@ -68,13 +68,13 @@ public class MainActivity extends ListActivity
 		imgBtn_Play = (ImageButton) findViewById(R.id.imgBtn_Play);
 		imgBtn_Play.setOnClickListener(playBtn_listener);
 		// “上一首”按钮
-		imgBtn_Previous = (ImageButton) findViewById(R.id.imgBtn_Previous);
-		imgBtn_Previous.setOnClickListener(previousBtn_listener);
+		imgBtn_Prev = (ImageButton) findViewById(R.id.imgBtn_Prev);
+		imgBtn_Prev.setOnClickListener(previousBtn_listener); 
 		// “下一首”按钮
 		imgBtn_Next = (ImageButton) findViewById(R.id.imgBtn_Next);
 		imgBtn_Next.setOnClickListener(nextBtn_listener);
 		// “播放界面/歌曲列表”按钮
-		imgBtn_List = (ImageButton) findViewById(R.id.imgBtn_List);
+		imgBtn_List = (ImageButton) findViewById(R.id.imgBtn_List); 
 		imgBtn_List.setOnClickListener(imgbtn_list_listener);
 		// 初始化媒体信息
 		MediaUtil.init(MainActivity.this);
@@ -212,11 +212,7 @@ public class MainActivity extends ListActivity
 			mediaPlayer.reset();
 			if (Def.isDebug)
 				System.out.println("mediaPlayer.reset()...");
-		} /*else
-		{
-			if (Def.isDebug)
-				System.out.println("mediaPlayer == null...");
-		}*/
+		}
 
 		Uri uri = Uri.parse("file://" + curMusicPath);
 		mediaPlayer = MediaPlayer.create(MainActivity.this, uri);

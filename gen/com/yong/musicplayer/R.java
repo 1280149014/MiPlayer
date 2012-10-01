@@ -21,15 +21,19 @@ public final class R {
         public static final int icon_list=0x7f020002;
         public static final int icon_play=0x7f020003;
         public static final int next=0x7f020004;
-        public static final int pause=0x7f020005;
-        public static final int play=0x7f020006;
-        public static final int previous=0x7f020007;
+        public static final int next_p=0x7f020005;
+        public static final int pause=0x7f020006;
+        public static final int pause_p=0x7f020007;
+        public static final int play=0x7f020008;
+        public static final int play_p=0x7f020009;
+        public static final int prev=0x7f02000a;
+        public static final int prev_p=0x7f02000b;
     }
     public static final class id {
         public static final int imgBtn_List=0x7f080002;
         public static final int imgBtn_Next=0x7f080007;
         public static final int imgBtn_Play=0x7f080005;
-        public static final int imgBtn_Previous=0x7f080006;
+        public static final int imgBtn_Prev=0x7f080006;
         public static final int linearLayout_Play=0x7f080003;
         public static final int lstItem_ArtInfo=0x7f080009;
         public static final int lstItem_MusicName=0x7f080008;
@@ -55,7 +59,7 @@ public final class R {
         public static final int music_list=0x7f050006;
         public static final int next=0x7f050008;
         public static final int play=0x7f050007;
-        public static final int previous=0x7f050009;
+        public static final int prev=0x7f050009;
         public static final int title_activity_main=0x7f050001;
     }
     public static final class style {
