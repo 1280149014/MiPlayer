@@ -4,8 +4,7 @@
 模仿小米手机自带音乐播放器，只是用来练习Android开发而已...    
 
 **截图：**  
-![Screenshot](https://raw.github.com/stillhere/MiPlayer/master/Screenshot/Screenshot_2012-10-14-11-54-23.png)
-![Screenshot](https://raw.github.com/stillhere/MiPlayer/master/Screenshot/Screenshot_2012-10-14-11-54-28.png)  
+![Screenshot](https://raw.github.com/stillhere/MiPlayer/master/Screenshot/Screenshot.jpg)  
 
 **关于作者：**  
 * Blog: http://www.yonglives.com  
