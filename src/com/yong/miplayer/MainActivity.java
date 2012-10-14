@@ -14,8 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +28,8 @@ import com.yong.utils.MediaUtil;
 public class MainActivity extends ListActivity
 {
 	private MediaPlayer mediaPlayer;
-	/** 播放界面布局 */
-	private LinearLayout linearLayout;
+	// 播放界面布局实例
+	private RelativeLayout layoutPlay;
 	// 歌曲列表按钮
 	private ImageButton imgBtn_List;
 	// 播放按钮
@@ -57,24 +57,32 @@ public class MainActivity extends ListActivity
 	// 当前正在播放歌曲的路径
 	private String curMusicPath;
 
+	// 音乐列表实例
+	private ListView lv_musicList;
+
 	private void init()
 	{
 		// 播放界面布局对象
 		// LayoutInflater inflater = LayoutInflater.from(this);
-		linearLayout = (LinearLayout) findViewById(R.id.linearLayout_Play);
+		// linearLayout = (LinearLayout) findViewById(R.id.linearLayout_Play);
+		layoutPlay = (RelativeLayout) findViewById(R.id.layout_play);
+
 		tv_curMusicTitle = (TextView) findViewById(R.id.textView_curMusicTitle);
 		tv_curMusicArtist = (TextView) findViewById(R.id.textView_curMusicArtist);
+
+		lv_musicList = this.getListView();
+
 		// “播放”按钮
 		imgBtn_Play = (ImageButton) findViewById(R.id.imgBtn_Play);
 		imgBtn_Play.setOnClickListener(playBtn_listener);
 		// “上一首”按钮
 		imgBtn_Prev = (ImageButton) findViewById(R.id.imgBtn_Prev);
-		imgBtn_Prev.setOnClickListener(previousBtn_listener); 
+		imgBtn_Prev.setOnClickListener(previousBtn_listener);
 		// “下一首”按钮
 		imgBtn_Next = (ImageButton) findViewById(R.id.imgBtn_Next);
 		imgBtn_Next.setOnClickListener(nextBtn_listener);
 		// “播放界面/歌曲列表”按钮
-		imgBtn_List = (ImageButton) findViewById(R.id.imgBtn_List); 
+		imgBtn_List = (ImageButton) findViewById(R.id.imgBtn_List);
 		imgBtn_List.setOnClickListener(imgbtn_list_listener);
 		// 初始化媒体信息
 		MediaUtil.init(MainActivity.this);
@@ -169,7 +177,7 @@ public class MainActivity extends ListActivity
 		super.onListItemClick(l, v, position, id);
 		if (Def.isDebug)
 		{
-//			System.out.println("TEST--->id:" + id);
+			// System.out.println("TEST--->id:" + id);
 			System.out.println("TEST--->onListItem position:" + position);
 		}
 		updateCurMusicInfo(position);
@@ -244,8 +252,6 @@ public class MainActivity extends ListActivity
 		@Override
 		public void onClick(View v)
 		{
-			// FileUtil.creatFolder("Photo");
-			// FileUtil.creatFolder("Ebook");
 			Toast.makeText(MainActivity.this, "Previous", Toast.LENGTH_SHORT).show();
 		}
 	};
@@ -256,7 +262,6 @@ public class MainActivity extends ListActivity
 		@Override
 		public void onClick(View v)
 		{
-			// System.out.println("TEST--->" + FileUtil.isFolderExist("Music", ""));
 			Toast.makeText(MainActivity.this, "Next", Toast.LENGTH_SHORT).show();
 		}
 	};
@@ -267,15 +272,17 @@ public class MainActivity extends ListActivity
 		@Override
 		public void onClick(View v)
 		{
-			if (linearLayout.getVisibility() == View.VISIBLE)
+			if (lv_musicList.getVisibility() == View.VISIBLE)
 			{
-				linearLayout.setVisibility(View.INVISIBLE);
+				layoutPlay.setVisibility(View.VISIBLE);
+				lv_musicList.setVisibility(View.INVISIBLE);
 				imgBtn_List.setImageResource(R.drawable.icon_play);
 				if (Def.isDebug)
 					Toast.makeText(MainActivity.this, "返回歌曲列表", Toast.LENGTH_SHORT).show();
 			} else
 			{
-				linearLayout.setVisibility(View.VISIBLE);
+				layoutPlay.setVisibility(View.INVISIBLE);
+				lv_musicList.setVisibility(View.VISIBLE);
 				imgBtn_List.setImageResource(R.drawable.icon_list);
 				if (Def.isDebug)
 					Toast.makeText(MainActivity.this, "返回播放界面", Toast.LENGTH_SHORT).show();

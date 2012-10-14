@@ -1,88 +1,96 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dip"
-        android:background="@color/orange"
-        android:orientation="horizontal" >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/textView_curMusicTitle"
-                android:layout_width="230dip"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dip"
-                android:layout_marginTop="10dip"
-                android:ellipsize="marquee"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:text="@string/default_title"
-                android:textColor="@android:color/white"
-                android:textSize="23sp" />
-
-            <TextView
-                android:id="@+id/textView_curMusicArtist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dip"
-                android:layout_marginTop="3dip"
-                android:text="@string/default_artist"
-                android:textColor="@android:color/white"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/imgBtn_List"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dip"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/music_list"
-            android:src="@drawable/icon_play" />
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" >
-
-        <ListView
-            android:id="@id/android:list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout_Play"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" >
+            android:layout_height="70dp"
+            android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/textView_Test"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/shadow"
-                android:text="@string/app_name"
-                android:textSize="13sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView_curMusicTitle"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:text="@string/default_title"
+                    android:textColor="@android:color/white"
+                    android:textSize="23sp" />
+
+                <TextView
+                    android:id="@+id/textView_curMusicArtist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/default_artist"
+                    android:textColor="@android:color/white"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/imgBtn_List"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/music_list"
+                android:src="@drawable/icon_play" />
         </LinearLayout>
-    </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_bg" >
+
+            <ListView
+                android:id="@id/android:list"
+                android:layout_width="fill_parent"
+                android:layout_height="370dp"
+                android:cacheColorHint="@android:color/transparent"
+                android:scrollbars="vertical"
+                android:visibility="visible" />
+
+            <RelativeLayout
+                android:id="@+id/layout_play"
+                android:layout_width="match_parent"
+                android:layout_height="370dp"
+                android:visibility="invisible" >
+
+                <SeekBar
+                    android:id="@+id/seekBar1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+        </FrameLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dip"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/play_bg" >
 
         <ImageButton
@@ -101,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dip"
+            android:layout_marginLeft="5dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/prev"
             android:src="@drawable/prev" />
@@ -112,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
+            android:layout_marginRight="5dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/next"
             android:src="@drawable/next" />

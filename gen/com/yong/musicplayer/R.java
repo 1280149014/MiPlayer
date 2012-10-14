@@ -16,30 +16,32 @@ public final class R {
         public static final int shadow=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_action_search=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int icon_list=0x7f020002;
-        public static final int icon_play=0x7f020003;
-        public static final int next=0x7f020004;
-        public static final int next_p=0x7f020005;
-        public static final int pause=0x7f020006;
-        public static final int pause_p=0x7f020007;
-        public static final int play=0x7f020008;
-        public static final int play_p=0x7f020009;
-        public static final int prev=0x7f02000a;
-        public static final int prev_p=0x7f02000b;
+        public static final int bg=0x7f020000;
+        public static final int ic_action_search=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int icon_list=0x7f020003;
+        public static final int icon_play=0x7f020004;
+        public static final int list_bg=0x7f020005;
+        public static final int next=0x7f020006;
+        public static final int next_p=0x7f020007;
+        public static final int pause=0x7f020008;
+        public static final int pause_p=0x7f020009;
+        public static final int play=0x7f02000a;
+        public static final int play_p=0x7f02000b;
+        public static final int prev=0x7f02000c;
+        public static final int prev_p=0x7f02000d;
     }
     public static final class id {
         public static final int imgBtn_List=0x7f080002;
         public static final int imgBtn_Next=0x7f080007;
         public static final int imgBtn_Play=0x7f080005;
         public static final int imgBtn_Prev=0x7f080006;
-        public static final int linearLayout_Play=0x7f080003;
+        public static final int layout_play=0x7f080003;
         public static final int lstItem_ArtInfo=0x7f080009;
         public static final int lstItem_MusicName=0x7f080008;
         public static final int menu_about=0x7f08000b;
         public static final int menu_update=0x7f08000a;
-        public static final int textView_Test=0x7f080004;
+        public static final int seekBar1=0x7f080004;
         public static final int textView_curMusicArtist=0x7f080001;
         public static final int textView_curMusicTitle=0x7f080000;
     }
