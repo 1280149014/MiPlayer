@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import com.yong.utils.MediaUtil;
 
 public class MainActivity extends ListActivity
 {
+	// MediaPlayer实例
 	private MediaPlayer mediaPlayer;
 	// 播放界面布局实例
 	private RelativeLayout layoutPlay;
@@ -50,27 +52,30 @@ public class MainActivity extends ListActivity
 	private TextView tv_curMusicTitle;
 	// 当前正在播放歌曲歌手/专辑信息界面
 	private TextView tv_curMusicArtist;
-	// 当前正在播放歌曲名称
+	// 当前正在播放歌曲的名称
 	private String curMusicTitle;
-	// 当前正在播放歌曲歌手/专辑信息
+	// 当前正在播放歌曲的歌手/专辑信息
 	private String curMusicArtist;
 	// 当前正在播放歌曲的路径
 	private String curMusicPath;
-
+	// 当前正在播放歌曲在音乐列表中的位置
+	private int curPosition;
 	// 音乐列表实例
 	private ListView lv_musicList;
+	// 歌词列表实例
+	private ListView lv_lrcList;
 
 	private void init()
 	{
 		// 播放界面布局对象
 		// LayoutInflater inflater = LayoutInflater.from(this);
-		// linearLayout = (LinearLayout) findViewById(R.id.linearLayout_Play);
 		layoutPlay = (RelativeLayout) findViewById(R.id.layout_play);
 
 		tv_curMusicTitle = (TextView) findViewById(R.id.textView_curMusicTitle);
 		tv_curMusicArtist = (TextView) findViewById(R.id.textView_curMusicArtist);
 
 		lv_musicList = this.getListView();
+		lv_lrcList = (ListView) findViewById(R.id.lv_lrcList);
 
 		// “播放”按钮
 		imgBtn_Play = (ImageButton) findViewById(R.id.imgBtn_Play);
@@ -84,6 +89,7 @@ public class MainActivity extends ListActivity
 		// “播放界面/歌曲列表”按钮
 		imgBtn_List = (ImageButton) findViewById(R.id.imgBtn_List);
 		imgBtn_List.setOnClickListener(imgbtn_list_listener);
+
 		// 初始化媒体信息
 		MediaUtil.init(MainActivity.this);
 		updateMusicList();
@@ -153,7 +159,6 @@ public class MainActivity extends ListActivity
 	private void updateCurMusicInfoView()
 	{
 		tv_curMusicTitle.setText(curMusicTitle);
-		// tv_curMusicTitle.setText("askjflksjdfl113242ljfdsofjwoef2");
 		tv_curMusicArtist.setText(curMusicArtist);
 	}
 
@@ -171,19 +176,17 @@ public class MainActivity extends ListActivity
 		init();
 	}
 
+	/** 响应音乐列表按下 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id)
 	{
 		super.onListItemClick(l, v, position, id);
 		if (Def.isDebug)
 		{
-			// System.out.println("TEST--->id:" + id);
 			System.out.println("TEST--->onListItem position:" + position);
 		}
-		updateCurMusicInfo(position);
-		updateMediaPlayer();
-		play();
-		imgBtn_Play.setImageResource(R.drawable.pause);
+		curPosition = position;
+		play(curPosition);
 	}
 
 	/** 响应“播放/暂停”按钮按键 */
@@ -192,8 +195,6 @@ public class MainActivity extends ListActivity
 		@Override
 		public void onClick(View v)
 		{
-			// playState = (playState == Constants.PLAY) ? (Constants.PAUSE) : (Constants.PLAY);
-
 			if (isPlaying)
 			{// 播放状态：暂停按钮可见
 				imgBtn_Play.setImageResource(R.drawable.play);
@@ -225,7 +226,25 @@ public class MainActivity extends ListActivity
 		Uri uri = Uri.parse("file://" + curMusicPath);
 		mediaPlayer = MediaPlayer.create(MainActivity.this, uri);
 		mediaPlayer.setLooping(false);
+		mediaPlayer.setOnCompletionListener(onCompletionListener);
 	}
+	
+	/*
+	 * 1、实现播放“上一首”、“下一首”歌曲功能
+2、添加了MediaPlayer.OnCompletionListener监听器用来处理音乐播放完成后的操作（操作代码未实现，正在理逻辑）
+
+2012-10-15 11:38:30 by Yong
+	 * */
+
+	private MediaPlayer.OnCompletionListener onCompletionListener = new OnCompletionListener()
+	{
+
+		@Override
+		public void onCompletion(MediaPlayer mp)
+		{
+			// 播放完了
+		}
+	};
 
 	/** 播放 */
 	private void play()
@@ -233,6 +252,15 @@ public class MainActivity extends ListActivity
 		mediaPlayer.start();
 		isPlaying = true;
 		isPause = false;
+	}
+
+	/** 根据歌曲所在列表位置播放 */
+	private void play(int position)
+	{
+		updateCurMusicInfo(position);
+		updateMediaPlayer();
+		play();
+		imgBtn_Play.setImageResource(R.drawable.pause);
 	}
 
 	/** 暂停 */
@@ -252,7 +280,10 @@ public class MainActivity extends ListActivity
 		@Override
 		public void onClick(View v)
 		{
-			Toast.makeText(MainActivity.this, "Previous", Toast.LENGTH_SHORT).show();
+			curPosition = curPosition-- > 0 ? curPosition : (audioInfos.size() - 1);
+			play(curPosition);
+
+			Toast.makeText(MainActivity.this, "上一首", Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -262,7 +293,10 @@ public class MainActivity extends ListActivity
 		@Override
 		public void onClick(View v)
 		{
-			Toast.makeText(MainActivity.this, "Next", Toast.LENGTH_SHORT).show();
+			curPosition = curPosition++ < (audioInfos.size() - 1) ? curPosition : 0;
+			play(curPosition);
+
+			Toast.makeText(MainActivity.this, "下一首", Toast.LENGTH_SHORT).show();
 		}
 	};
 
@@ -340,6 +374,7 @@ public class MainActivity extends ListActivity
 		}
 		case Def.MENU_ABOUT_ID:
 		{// 关于
+			lv_lrcList.setBackgroundColor(0xff0000);
 			if (Def.isDebug)
 				Toast.makeText(MainActivity.this, "关于", Toast.LENGTH_SHORT).show();
 			break;

@@ -9,4 +9,4 @@
 **关于作者：**  
 * Blog: http://www.yonglives.com  
 * Email: stillhere163@163.com  
-* QQ: 517723961
+* QQ: [517723961](http://wpa.qq.com/msgrd?V=1&Uin=517723961&Site=http://www.yonglives.com/&Menu=yes)
