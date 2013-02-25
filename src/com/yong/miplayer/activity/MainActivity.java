@@ -1,15 +1,28 @@
-﻿package com.yong.miplayer;
+﻿package com.yong.miplayer.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.IBinder;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,15 +34,19 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yong.constants.Def;
+import com.yong.miplayer.AudioInfo;
+import com.yong.miplayer.constant.Def;
+import com.yong.miplayer.service.PlayerService;
+import com.yong.miplayer.util.FileUtils;
+import com.yong.miplayer.util.MediaUtils;
 import com.yong.musicplayer.R;
-import com.yong.utils.FileUtil;
-import com.yong.utils.MediaUtil;
 
 public class MainActivity extends ListActivity
 {
+	private static String TAG = "MainActivity";
+	// MediaScannerReceiver scannerReceiver = new MediaScannerReceiver(this);
 	// MediaPlayer实例
-	private MediaPlayer mediaPlayer;
+//	private MediaPlayer mediaPlayer;
 	// 播放界面布局实例
 	private RelativeLayout layoutPlay;
 	// 歌曲列表按钮
@@ -65,6 +82,20 @@ public class MainActivity extends ListActivity
 	// 歌词列表实例
 	private ListView lv_lrcList;
 
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		// 代码实现隐藏标题栏（必须放在setContentView之前）
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_main);
+
+		if (Def.isDebug)
+			Log.e(TAG, "TEST--->onCreate()...");
+
+		init();
+	}
+
 	private void init()
 	{
 		// 播放界面布局对象
@@ -91,15 +122,32 @@ public class MainActivity extends ListActivity
 		imgBtn_List.setOnClickListener(imgbtn_list_listener);
 
 		// 初始化媒体信息
-		MediaUtil.init(MainActivity.this);
+		MediaUtils.init(MainActivity.this);
 		updateMusicList();
 		setCurMusicInfo();
 		updateCurMusicInfoView();
-		updateMediaPlayer();
+//		updateMediaPlayer();
+
+		// 绑定Service
+//		Intent intent = new Intent(MainActivity.this, PlayerService.class);
+//		this.bindService(intent, _connection, Service.BIND_AUTO_CREATE);
 
 		if (Def.isDebug)
-			System.out.println("TEST--->SD卡路径：" + FileUtil.getSDPath());
+			Log.e(TAG, "TEST--->SD卡路径：" + FileUtils.getSDPath());
 	}
+
+	private ServiceConnection _connection = new ServiceConnection()
+	{
+		@Override
+		public void onServiceConnected(ComponentName arg0, IBinder arg1)
+		{
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name)
+		{
+		}
+	};
 
 	/** 设置当前播放歌曲 */
 	private void setCurMusicInfo()
@@ -147,9 +195,9 @@ public class MainActivity extends ListActivity
 
 		if (Def.isDebug)
 		{
-			System.out.println("TEST--->选择的歌曲信息：");
-			System.out.println("TEST--->歌名：" + curMusicTitle);
-			System.out.println("TEST--->歌手：" + curMusicArtist);
+			Log.e(TAG, "TEST--->选择的歌曲信息：");
+			Log.e(TAG, "TEST--->歌名：" + curMusicTitle);
+			Log.e(TAG, "TEST--->歌手：" + curMusicArtist);
 		}
 
 		updateCurMusicInfoView();
@@ -162,20 +210,6 @@ public class MainActivity extends ListActivity
 		tv_curMusicArtist.setText(curMusicArtist);
 	}
 
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		// 代码实现隐藏标题栏（必须放在setContentView之前）
-		// requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_main);
-
-		if (Def.isDebug)
-			System.out.println("TEST--->onCreate()...");
-
-		init();
-	}
-
 	/** 响应音乐列表按下 */
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id)
@@ -183,7 +217,7 @@ public class MainActivity extends ListActivity
 		super.onListItemClick(l, v, position, id);
 		if (Def.isDebug)
 		{
-			System.out.println("TEST--->onListItem position:" + position);
+			Log.e(TAG, "TEST--->onListItem position:" + position);
 		}
 		curPosition = position;
 		play(curPosition);
@@ -200,13 +234,13 @@ public class MainActivity extends ListActivity
 				imgBtn_Play.setImageResource(R.drawable.play);
 				pause();
 				if (Def.isDebug)
-					System.out.println("TEST--->暂停");
+					Log.e(TAG, "TEST--->暂停");
 			} else
 			{// 暂停状态：播放按钮可见
 				imgBtn_Play.setImageResource(R.drawable.pause);
 				play();
 				if (Def.isDebug)
-					System.out.println("TEST--->播放");
+					Log.e(TAG, "TEST--->播放");
 			}
 
 			if (Def.isDebug)
@@ -214,37 +248,34 @@ public class MainActivity extends ListActivity
 		}
 	};
 
-	private void updateMediaPlayer()
-	{
-		if (mediaPlayer != null)
-		{
-			mediaPlayer.reset();
-			if (Def.isDebug)
-				System.out.println("mediaPlayer.reset()...");
-		}
+//	private void updateMediaPlayer()
+//	{
+//		if (mediaPlayer != null)
+//		{
+//			mediaPlayer.reset();
+//			if (Def.isDebug)
+//				Log.e(TAG, "mediaPlayer.reset()...");
+//		}
+//
+//		Uri uri = Uri.parse("file://" + curMusicPath);
+//
+//		if (Def.isDebug)
+//			Log.e(TAG, curMusicPath);
+//
+//		mediaPlayer = MediaPlayer.create(MainActivity.this, uri);
+//		mediaPlayer.setLooping(false);
+//		mediaPlayer.setOnCompletionListener(onCompletionListener);
+//	}
 
-		Uri uri = Uri.parse("file://" + curMusicPath);
-		mediaPlayer = MediaPlayer.create(MainActivity.this, uri);
-		mediaPlayer.setLooping(false);
-		mediaPlayer.setOnCompletionListener(onCompletionListener);
-	}
-	
-	/*
-	 * 1、实现播放“上一首”、“下一首”歌曲功能
-2、添加了MediaPlayer.OnCompletionListener监听器用来处理音乐播放完成后的操作（操作代码未实现，正在理逻辑）
-
-2012-10-15 11:38:30 by Yong
-	 * */
-
-	private MediaPlayer.OnCompletionListener onCompletionListener = new OnCompletionListener()
-	{
-
-		@Override
-		public void onCompletion(MediaPlayer mp)
-		{
-			// 播放完了
-		}
-	};
+//	private MediaPlayer.OnCompletionListener onCompletionListener = new OnCompletionListener()
+//	{
+//
+//		@Override
+//		public void onCompletion(MediaPlayer mp)
+//		{
+//			// 播放完了
+//		}
+//	};
 
 	/** 播放 */
 	private void play()
@@ -258,8 +289,9 @@ public class MainActivity extends ListActivity
 	private void play(int position)
 	{
 		updateCurMusicInfo(position);
-		updateMediaPlayer();
-		play();
+		// startService();
+//		updateMediaPlayer();
+//		play();
 		imgBtn_Play.setImageResource(R.drawable.pause);
 	}
 
@@ -335,7 +367,7 @@ public class MainActivity extends ListActivity
 	/** 更新播放列表 */
 	public void updateMusicList()
 	{
-		audioInfos = MediaUtil.updateAudioInfos();
+		audioInfos = MediaUtils.updateAudioInfos();
 
 		if (!musicList.isEmpty())
 		{
@@ -351,7 +383,7 @@ public class MainActivity extends ListActivity
 			musicList.add(map);
 
 			if (Def.isDebug)
-				System.out.println(audioInfo);
+				Log.e(TAG, "audioInfo...");
 		}
 
 		SimpleAdapter listAdapter = new SimpleAdapter(MainActivity.this, musicList,
@@ -360,25 +392,107 @@ public class MainActivity extends ListActivity
 		setListAdapter(listAdapter);
 	}
 
+	public BroadcastReceiver mediaScannerReceiver = new BroadcastReceiver()
+	{
+		private AlertDialog.Builder builder = null;
+		private AlertDialog ad = null;
+		private int count1;
+		private int count2;
+		private int count;
+
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			String action = intent.getAction();
+
+			if (Intent.ACTION_MEDIA_SCANNER_STARTED.equals(action))
+			{
+				// Cursor c1 = context.getContentResolver().query(
+				// MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+				// new String[] { MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DURATION,
+				// MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media._ID,
+				// MediaStore.Audio.Media.DISPLAY_NAME }, null, null, null);
+				Cursor c1 = context.getContentResolver().query(
+						MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null,
+						MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+
+				count1 = c1.getCount();
+				if (Def.isDebug)
+					System.out.println("count1:" + count1);
+
+				builder = new AlertDialog.Builder(context);
+				builder.setMessage("正在扫描存储卡...");
+				ad = builder.create();
+				ad.show();
+			} else if (Intent.ACTION_MEDIA_SCANNER_FINISHED.equals(action))
+			{
+				// Cursor c2 = context.getContentResolver().query(
+				// MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+				// new String[] { MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DURATION,
+				// MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media._ID,
+				// MediaStore.Audio.Media.DISPLAY_NAME }, null, null, null);
+				Cursor c2 = context.getContentResolver().query(
+						MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null,
+						MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
+
+				count2 = c2.getCount();
+				if (Def.isDebug)
+					System.out.println("count2:" + count2);
+				count = count2 - count1;
+
+				ad.cancel();
+				MediaUtils.getCursor(c2);
+				MediaUtils.updateAudioInfos();
+				// activity.
+				updateMusicList();
+
+				if (count >= 0)
+				{
+					Toast.makeText(context, "添加了" + count + "首歌曲", Toast.LENGTH_LONG).show();
+				} else
+				{
+					Toast.makeText(context, "减少了" + count + "首歌曲", Toast.LENGTH_LONG).show();
+				}
+			}
+		}
+	};
+
+	/** 更新MediaStore */
+	public void updateMediaStore()
+	{
+		// contentResolver.update(uri, values, where, selectionArgs)
+		IntentFilter intentfilter = new IntentFilter(Intent.ACTION_MEDIA_SCANNER_STARTED);
+		intentfilter.addAction(Intent.ACTION_MEDIA_SCANNER_FINISHED);
+		intentfilter.addDataScheme("file");
+		// MediaScannerReceiver scanSdReceiver = new MediaScannerReceiver();
+		MainActivity.this.registerReceiver(mediaScannerReceiver, intentfilter);
+		MainActivity.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"
+				+ Environment.getExternalStorageDirectory().getAbsolutePath())));
+		// // 先看看不更新Cursor还能不能查询，如果能，构造函数里就不查询了。
+		// // getCursor();
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getOrder())
 		{
-		case Def.MENU_UPDATE_ID:
-		{// 更新
-			updateMusicList();
-			if (Def.isDebug)
-				Toast.makeText(MainActivity.this, "更新", Toast.LENGTH_SHORT).show();
-			break;
-		}
-		case Def.MENU_ABOUT_ID:
-		{// 关于
-			lv_lrcList.setBackgroundColor(0xff0000);
-			if (Def.isDebug)
-				Toast.makeText(MainActivity.this, "关于", Toast.LENGTH_SHORT).show();
-			break;
-		}
+			case Def.MENU_UPDATE_ID:
+			{// 更新
+				// updateMusicList();
+				// MediaUtils.
+				updateMediaStore();
+				if (Def.isDebug)
+					Toast.makeText(MainActivity.this, "更新", Toast.LENGTH_SHORT).show();
+				break;
+			}
+			case Def.MENU_ABOUT_ID:
+			{// 关于
+				lv_lrcList.setBackgroundColor(0xff0000);
+				if (Def.isDebug)
+					Toast.makeText(MainActivity.this, "关于", Toast.LENGTH_SHORT).show();
+				break;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}

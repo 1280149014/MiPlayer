@@ -1,4 +1,4 @@
-﻿package com.yong.utils;
+﻿package com.yong.miplayer.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.yong.constants.Def;
+import com.yong.miplayer.constant.Def;
 
 import android.os.Environment;
 
-public final class FileUtil
+public final class FileUtils
 {
 	private static String SDCardRoot;
 

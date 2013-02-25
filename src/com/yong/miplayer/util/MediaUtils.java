@@ -1,4 +1,4 @@
-﻿package com.yong.utils;
+﻿package com.yong.miplayer.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.yong.miplayer.AudioInfo;
 /**
  * @author Yong
  * */
-public final class MediaUtil
+public final class MediaUtils
 {
 	private static ContentResolver contentResolver;
 	private static Cursor cursor;
@@ -37,15 +37,28 @@ public final class MediaUtil
 				null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
 	}
 
-	public static void updateMediaStore()
+	public static void getCursor(Cursor c)
 	{
-		// 先看看不更新Cursor还能不能查询，如果能，构造函数里就不查询了。
-		// getCursor();
+		cursor = c;
 	}
+
+	// public static void updateMediaStore()
+	// {
+	// // contentResolver.update(uri, values, where, selectionArgs)
+	// IntentFilter intentfilter = new IntentFilter(Intent.ACTION_MEDIA_SCANNER_STARTED);
+	// intentfilter.addAction(Intent.ACTION_MEDIA_SCANNER_FINISHED);
+	// intentfilter.addDataScheme("file");
+	// MediaScannerReceiver scanSdReceiver = new MediaScannerReceiver();
+	// ctx.registerReceiver(scanSdReceiver, intentfilter);
+	// ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://"
+	// + Environment.getExternalStorageDirectory().getAbsolutePath())));
+	// // // 先看看不更新Cursor还能不能查询，如果能，构造函数里就不查询了。
+	// // // getCursor();
+	// }
 
 	public static List<AudioInfo> updateAudioInfos()
 	{
-		updateMediaStore();
+		// updateMediaStore();
 		List<AudioInfo> audioInfos = new ArrayList<AudioInfo>();
 		if (cursor.moveToFirst())
 		{
@@ -83,6 +96,7 @@ public final class MediaUtil
 		} else
 		{
 			Toast.makeText(ctx, "未找到歌曲，请刷新歌曲列表！", Toast.LENGTH_LONG).show();
+			return null;
 		}
 
 		return audioInfos;
